@@ -130,28 +130,27 @@ inline auto operator""_a(const wchar_t* s, size_t) -> detail::udl_arg<wchar_t> {
 }  // namespace literals
 #endif
 
-template <typename It, typename Sentinel>
-auto join(It begin, Sentinel end, wstring_view sep)
-    -> join_view<It, Sentinel, wchar_t> {
+template <typename It, typename Sentinel, typename Char>
+auto join(It begin, Sentinel end, basic_string_view<Char> sep)
+    -> join_view<It, Sentinel, Char> {
   return {begin, end, sep};
 }
 
-template <typename Range, FMT_ENABLE_IF(!is_tuple_like<Range>::value)>
-auto join(Range&& range, wstring_view sep)
-    -> join_view<decltype(std::begin(range)), decltype(std::end(range)),
-                 wchar_t> {
+template <typename Range, typename Char, FMT_ENABLE_IF(!is_tuple_like<Range>::value)>
+auto join(Range&& range, basic_string_view<Char> sep)
+    -> join_view<decltype(std::begin(range)), decltype(std::end(range)), Char> {
   return join(std::begin(range), std::end(range), sep);
 }
 
-template <typename T>
-auto join(std::initializer_list<T> list, wstring_view sep)
-    -> join_view<const T*, const T*, wchar_t> {
+template <typename T, typename Char>
+auto join(std::initializer_list<T> list, basic_string_view<Char> sep)
+    -> join_view<const T*, const T*, Char> {
   return join(std::begin(list), std::end(list), sep);
 }
 
-template <typename Tuple, FMT_ENABLE_IF(is_tuple_like<Tuple>::value)>
-auto join(const Tuple& tuple, basic_string_view<wchar_t> sep)
-    -> tuple_join_view<Tuple, wchar_t> {
+template <typename Tuple, typename Char, FMT_ENABLE_IF(is_tuple_like<Tuple>::value)>
+auto join(const Tuple& tuple, basic_string_view<Char> sep)
+    -> tuple_join_view<Tuple, Char> {
   return {tuple, sep};
 }
 
