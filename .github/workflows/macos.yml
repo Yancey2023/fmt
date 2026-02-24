@@ -8,6 +8,7 @@ permissions:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-14]
         build_type: [Debug, Release]
