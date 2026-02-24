@@ -1323,8 +1323,8 @@ FMT_CONSTEXPR auto format_decimal(OutputIt out, UInt value, int num_digits)
     return out;
   }
   // Buffer is large enough to hold all digits (digits10 + 1).
-  char buffer[digits10<UInt>() + 1];
-  if (is_constant_evaluated()) fill_n(buffer, sizeof(buffer), '\0');
+  Char buffer[digits10<UInt>() + 1];
+  if (is_constant_evaluated()) fill_n(buffer, sizeof(buffer), static_cast<Char>('\0'));
   do_format_decimal(buffer, value, num_digits);
   return copy_noinline<Char>(buffer, buffer + num_digits, out);
 }
@@ -1360,8 +1360,8 @@ FMT_CONSTEXPR inline auto format_base2e(int base_bits, OutputIt out, UInt value,
     return out;
   }
   // Make buffer large enough for any base.
-  char buffer[num_bits<UInt>()];
-  if (is_constant_evaluated()) fill_n(buffer, sizeof(buffer), '\0');
+  Char buffer[num_bits<UInt>()];
+  if (is_constant_evaluated()) fill_n(buffer, sizeof(buffer), static_cast<Char>('\0'));
   format_base2e(base_bits, buffer, value, num_digits, upper);
   return detail::copy_noinline<Char>(buffer, buffer + num_digits, out);
 }
