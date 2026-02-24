@@ -2142,10 +2142,10 @@ FMT_CONSTEXPR FMT_INLINE auto write_int(OutputIt out, write_int_arg<T> arg,
   static_assert(std::is_same<T, uint32_or_64_or_128_t<T>>::value, "");
 
   constexpr size_t buffer_size = num_bits<T>();
-  char buffer[buffer_size];
-  if (is_constant_evaluated()) fill_n(buffer, buffer_size, '\0');
-  const char* begin = nullptr;
-  const char* end = buffer + buffer_size;
+  Char buffer[buffer_size];
+  if (is_constant_evaluated()) fill_n(buffer, buffer_size, static_cast<Char>('\0'));
+  const Char* begin = nullptr;
+  const Char* end = buffer + buffer_size;
 
   auto abs_value = arg.abs_value;
   auto prefix = arg.prefix;
